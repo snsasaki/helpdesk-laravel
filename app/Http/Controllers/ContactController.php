@@ -25,9 +25,16 @@ class ContactController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
-        //
+        $validated = $request->validate([
+            'title'     => 'required|string|max:100',
+            'detail'   => 'required|string|max:1000',
+        ]);
+
+        $contact = Contact::create($validated);
+
+        return response()->json($contact->fresh(), 201);
     }
 
     /**
