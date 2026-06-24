@@ -48,7 +48,7 @@ class ContactController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Contact $contact)
+    public function update(Request $request, Contact $contact): JsonResponse
     {
         $validated = $request->validate([
             'status' => 'required|in:pending,in_progress,completed',
@@ -62,8 +62,10 @@ class ContactController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Contact $contact): JsonResponse
     {
-        //
+        $contact->delete();
+
+        return response()->json(null, 204);
     }
 }
